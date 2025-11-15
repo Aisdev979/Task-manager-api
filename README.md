@@ -1,8 +1,3 @@
-Here is a **professional README.md** for your CRUD Task Management API.
-It's clean, structured, and GitHub-ready 👇
-
----
-
 # 📘 Task Management API
 
 A simple CRUD (Create, Read, Update, Delete) Task Management API that allows users to manage tasks with a **title**, **description**, and **status** (pending/completed).
