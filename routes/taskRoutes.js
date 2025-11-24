@@ -5,6 +5,10 @@ const { getAllTasks, createNewTask, validateTitle, updateTask } = require("../co
 
 // GET /api/tasks → Get all tasks
 router.get("/", getAllTasks);
+
+//recent update
+router.get("/:id", getSingleTask);
+
 router.post('/', validateTitle, createNewTask);
 router.patch("/:id", updateTask);
 

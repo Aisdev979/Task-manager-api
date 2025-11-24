@@ -42,6 +42,16 @@ exports.createNewTask = (req, res) => {
   }
 };
 
+exports.getSingleTask= (req, res) => {
+  const singleTask = Task.find(t => t.id === parseInt(req.params.id));
+  
+  if(!singleTask) return res.status(404).json({error: "Not found!"});
+  res.status(200).json(singleTask);
+
+};
+
+
+
 // Update Task
 exports.updateTask = (req, res) => {
   try {
