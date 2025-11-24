@@ -124,7 +124,7 @@ Delete a task permanently.
 
 ## 🔍 Filter Tasks by Status
 
-### **GET /api/tasks?status=pending**
+### **GET /api/tasks/filter?status=pending**
 
 **Description:**
 Get tasks filtered by `pending` or `completed`.

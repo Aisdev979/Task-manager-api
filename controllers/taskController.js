@@ -9,6 +9,17 @@ exports.getAllTasks = (req, res) => {
   }
 };
 
+//Get Single Task 
+exports.getSingleTask= (req, res) => {
+  try {
+    const singleTask = Task.find(t => t.id === parseInt(req.params.id));
+    if(!singleTask) return res.status(404).json({error: "Not found!"});
+    res.status(200).json(singleTask); 
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 // Validate Title Middleware
 exports.validateTitle = (req, res, next) => {
   const { title } = req.body;
@@ -27,7 +38,7 @@ exports.createNewTask = (req, res) => {
       id: Task.length + 1,
       title: req.body.title,
       description: req.body.description || "",
-      status: "pending"
+      status: req.body.status || "pending" 
     };
 
     Task.push(newTask);
@@ -41,23 +52,6 @@ exports.createNewTask = (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
-
-
-//Get Single Task 
-exports.getSingleTask= (req, res) => {
-  try {
-
-      const singleTask = Task.find(t => t.id === parseInt(req.params.id));
-      if(!singleTask) return res.status(404).json({error: "Not found!"});
-      res.status(200).json(singleTask); 
-
-  } catch (error) {
-      res.status(500).json({ message: "Server error", error });
-  }
-
-};
-
-
 
 // Update Task
 exports.updateTask = (req, res) => {
@@ -81,6 +75,47 @@ exports.updateTask = (req, res) => {
       task: Task[index]
     });
 
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// GET Completed todos
+exports.markTaskCompleted = (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    const index = Task.findIndex(task => task.id === id);
+
+    if (index === -1) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    // Merge old + setting status to completed
+    Task[index] = {
+      ...Task[index],
+      status: "completed"
+    };
+
+    res.status(200).json({
+      message: "Task marked has completed",
+      task: Task[index]
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }; // Custom Read!
+}
+
+// Filter Task by Status
+exports.filterTaskByStatus = (req, res) => {
+  try {
+    const { status } = req.query;
+
+    const filterTask = Task.filter(t => t.status === status);
+    if(!filterTask) return res.status(404).json({error: "Not found!"});
+  
+    res.status(200).json(filterTask);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
