@@ -49,7 +49,7 @@ exports.getSingleTask= (req, res) => {
 
       const singleTask = Task.find(t => t.id === parseInt(req.params.id));
       if(!singleTask) return res.status(404).json({error: "Not found!"});
-      res.status(200).json(singleTask);
+      res.status(200).json(singleTask); 
 
   } catch (error) {
       res.status(500).json({ message: "Server error", error });
