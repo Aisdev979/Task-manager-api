@@ -63,7 +63,7 @@ exports.updateTask = (req, res) => {
     if (index === -1) {
       return res.status(404).json({ message: "Task not found" });
     }
-
+  
     // Merge old + new data
     Task[index] = {
       ...Task[index],
@@ -78,7 +78,31 @@ exports.updateTask = (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
-};
+}
+
+//Delete task
+exports.deleteTask = (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    const index = Task.findIndex(task => task.id === id);
+
+    if (index === -1) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+  
+    // removing task from Task
+    Task[index].splice(index, 1);
+
+    res.status(200).json({
+      message: "Task deleted successfully",
+      task: Task[index]
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+}
 
 // GET Completed todos
 exports.markTaskCompleted = (req, res) => {
