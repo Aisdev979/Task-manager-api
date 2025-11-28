@@ -35,7 +35,7 @@ exports.validateTitle = (req, res, next) => {
 exports.createNewTask = (req, res) => {
   try {
     const newTask = {
-      id: Task.length + 1,
+      id: Task[Task.length - 1].id + 1,
       title: req.body.title,
       description: req.body.description || "",
       status: req.body.status || "pending" 
@@ -92,11 +92,10 @@ exports.deleteTask = (req, res) => {
     }
   
     // removing task from Task
-    Task[index].splice(index, 1);
-
+    Task.splice(index, 1);
+   
     res.status(200).json({
       message: "Task deleted successfully",
-      task: Task[index]
     });
 
   } catch (error) {
